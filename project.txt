@@ -1,0 +1,63 @@
+MariaDB [project]> create table appointment(
+    -> cnic int(50),
+    -> appointment_date date,
+    -> doc_id int(11),
+    -> ward_no int(11),
+    -> foreign key(cnic) references patient(pat_id),
+    -> foreign key(doc_id) references medical_staff(doc_id),
+    -> foreign key(ward_no) references wards(ward_no));
+Query OK, 0 rows affected (0.012 sec)
+
+MariaDB [project]> describe appointment;
++------------------+---------+------+-----+---------+-------+
+| Field            | Type    | Null | Key | Default | Extra |
++------------------+---------+------+-----+---------+-------+
+| cnic             | int(50) | YES  | MUL | NULL    |       |
+| appointment_date | date    | YES  |     | NULL    |       |
+| doc_id           | int(11) | YES  | MUL | NULL    |       |
+| ward_no          | int(11) | YES  | MUL | NULL    |       |
++------------------+---------+------+-----+---------+-------+
+4 rows in set (0.004 sec)
+
+MariaDB [project]> describe patient;
++---------------------+-------------+------+-----+---------+----------------+
+| Field               | Type        | Null | Key | Default | Extra          |
++---------------------+-------------+------+-----+---------+----------------+
+| pat_id              | int(11)     | NO   | PRI | NULL    | auto_increment |
+| name                | varchar(50) | YES  |     | NULL    |                |
+| dob                 | date        | YES  |     | NULL    |                |
+| contact             | int(20)     | YES  |     | NULL    |                |
+| blood_type_required | varchar(50) | NO   |     | NULL    |                |
+| receiving_status    | varchar(50) | YES  |     | NULL    |                |
++---------------------+-------------+------+-----+---------+----------------+
+6 rows in set (0.005 sec)
+
+MariaDB [project]> alter table patient
+    -> modify pat_id int(50);
+Query OK, 0 rows affected (0.004 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [project]> alter table patient
+    -> drop column receiving_status;
+Query OK, 0 rows affected (0.010 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [project]> describe patient;
++---------------------+-------------+------+-----+---------+-------+
+| Field               | Type        | Null | Key | Default | Extra |
++---------------------+-------------+------+-----+---------+-------+
+| pat_id              | int(50)     | NO   | PRI | NULL    |       |
+| name                | varchar(50) | YES  |     | NULL    |       |
+| dob                 | date        | YES  |     | NULL    |       |
+| contact             | int(20)     | YES  |     | NULL    |       |
+| blood_type_required | varchar(50) | NO   |     | NULL    |       |
++---------------------+-------------+------+-----+---------+-------+
+5 rows in set (0.005 sec)
+MariaDB [project]> alter table donor
+    -> modify donor_id int(50);
+Query OK, 0 rows affected (0.008 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+
+
+select a.cnic,name,contact from appointment a,patient p where a.cnic=p.pat_id;

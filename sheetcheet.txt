@@ -1,0 +1,90 @@
+MONGODB CHEET SHEET
+
+//--------------------------------------------
+
+update:
+	db.city.updateMany({ country: "PK", "location.latitude": 73.2122 }, { $set: { population: 55000 } })
+
+insert:
+	db.p21_8036.insertOne({username:"ali",password:"def123",email:"ali123@yahoo",DOB:"1996-03-04",address:"peshawer",contact:"+923332233322"});
+
+where:
+db.p21_8036.find({address:"islamabad"});
+
+and:
+	db.city.find({country:"AD",population:{$gt:8022}});
+	db.city.find({$and:[{country:"AD"},{population:{$gt:8022}}]});
+Or:
+db.p21_8036.find({$or:[{address:"peshawer"},{address:"Karachi"}]});
+
+db.city.find({country:{$in:["AD",'AE']}}).limit(2);
+
+
+projection:
+db.city.find({"location.longitude":-58.37723},{location:1,population:1});
+
+//-------------------------------------------
+
+THIS IS A MYSQL DATABASE SERVER CHEET SHEET:
+
+
+VIEW:
+create view emp as select park_name from themepark;
+select * from emp;	
+
+"Delete":
+	delete from emp where park_name="Miniland";
+
+'group by':
+	SELECT COUNT(CustomerID), Country
+FROM Customers
+GROUP BY Country
+HAVING COUNT(CustomerID) > 5;
+
+	select sum(hour_rate) as total ,date_worked from hours group by date_worked;
+
+date_format:
+	 select distinct(date_format(date_worked,"%D %M %Y")) from hours;
+	 select current_date(),current_time();
+
+procedures:
+	delimiter $$
+	create procedure prog()
+    -> begin
+    -> update hours
+    -> set hour_rate="12.50" where hour_rate="6.50";
+    -> end$$
+    call prog()$$
+   
+    create procedure prog1(IN var1 int)
+    	begin
+    	update hours
+    	set hour_rate=var1 where hour_rate="6.50";
+    	end$$
+    	call prog1(10)$$
+
+	CREATE PROCEDURE PRG_AVG_PRICE(out avg_price decimal)
+	BEGIN
+	SELECT AVG(P_PRICE) INTO avg_price FROM PRODUCT;
+	END$$
+	call PRG_AVG_PRICE(@out)$$
+	SELECT @out;
+
+	DROP PROCEDURE procedure_name ;
+
+
+view:
+
+CREATE VIEW EMPFR AS
+SELECT *
+FROM EMPLOYEE
+WHERE PARK_CODE = "FR1001"
+WITH CHECK OPTION;
+concat:
+ select concat(substring(emp_lname,1,3),length(emp_lname),substring(emp_fname,3,4)) as pass from employee;
+
+ triggers:
+ 	MariaDB [new]> create trigger one after update on employee for each row begin
+    -> insert into one values("1");
+    -> end$$
+Query OK, 0 rows affected (0.011 sec)
